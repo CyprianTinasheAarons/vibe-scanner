@@ -108,6 +108,59 @@ python /path/to/vibe-scanner-skill/scan.py --json /path/to/project
 To install it for Codex, export or copy the bundle to
 `~/.codex/skills/vibe-scanner`. Codex will discover the skill on the next turn.
 
+## Future roadmap
+
+The deterministic, read-only local scanner remains the foundation. Planned
+additions will extend it with targeted AI reasoning and stronger runtime
+validation without presenting either as a replacement for a professional
+security audit.
+
+### Optional AI-assisted review
+
+- Add an explicit `--ai-review` mode using the OpenAI Responses API, with the
+  model configurable through an environment variable.
+- Show which files and snippets would be transmitted before a request, and
+  require clear user consent.
+- Select only security-relevant source and configuration files; continue to
+  honor ignore rules and exclude `.env` files, private keys, databases,
+  archives, generated output, and other sensitive or unnecessary content.
+- Redact detected credentials, cap request size, and never store or print API
+  keys. Local scanning must continue to work without an API key.
+- Use structured output for evidence-backed findings with file, line, severity,
+  confidence, exploit scenario, and remediation. Findings without concrete
+  evidence should be labeled as review notes rather than vulnerabilities.
+- Focus AI review on authentication and sessions, per-object authorization and
+  IDOR/BOLA, rate limiting and resource exhaustion, SSRF and path traversal,
+  injection, frontend/backend trust boundaries, error disclosure, deployment
+  configuration, and suspicious dependencies.
+- Deduplicate AI and deterministic findings, label their source clearly, and
+  merge them into the existing terminal and JSON reports.
+- Treat API failures as non-fatal so they never prevent or invalidate the local
+  scan.
+
+### Runtime validation
+
+- Expand URL scanning beyond a single request with a safe, bounded inventory of
+  reachable routes and APIs.
+- Add non-destructive checks for authentication and authorization boundaries,
+  abandoned endpoints, malformed-input handling, error leakage, and rate-limit
+  behavior.
+- Improve checks for security headers, cookie policy, CORS, HTTPS, debug
+  settings, and environment-specific configuration.
+- Support repeatable scans in CI after AI-generated changes and deployments,
+  while keeping crawling limits and prohibited actions explicit.
+
+### Reporting and assurance
+
+- Add a self-contained HTML report alongside terminal and JSON output.
+- Record evidence, confidence, scanner source, and validation status for each
+  finding to make false positives easier to review.
+- Add regression fixtures and evaluations for the AI prompt, redaction,
+  structured-output parsing, and deterministic/AI result merging.
+- Document the scanner's coverage and limitations clearly: static and AI review
+  can identify likely weaknesses, while runtime validation establishes behavior
+  and neither guarantees that an application is secure.
+
 ## Development
 
 Install test dependencies and run the suite:
