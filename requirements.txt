@@ -1,0 +1,8 @@
+typer>=0.12
+rich>=13.7
+mcp[cli]>=1.0
+
+# That's it - this skill is intentionally dependency-light so any agent
+# runtime can `pip install -r requirements.txt` without pulling in the
+# MCP or LangChain deps used by the other two surfaces (see ../mcp_server.py
+# and the top-level requirements.txt if you need those instead/also).

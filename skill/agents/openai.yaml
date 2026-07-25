@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vibe Scanner"
+  short_description: "Scan apps and sites for common security risks"
+  default_prompt: "Use $vibe-scanner to scan this project or deployed URL and explain the findings."
